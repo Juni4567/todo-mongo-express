@@ -1,0 +1,70 @@
+
+
+
+
+
+
+
+
+
+
+
+1. Start with node (backend), and create route first
+2. try to say "/hello" to "Hello world"
+3. Create 4 routes index, create, delete, update
+then /create I will manully try to add task into db todoItem.save()
+same goes to other and then I will focus on visual and connect all routes through jQuery ajax.
+i hope I am making some sense here.
+
+just like PHP has Mysql as default database, Node has Mongo so connection will be there at app level (at the start of app/request look at express middleware)
+security is not your concern in todo app and neither it should be objective
+
+
+
+
+
+
+How to proceed:
+	-- Master Routing
+	-- Master Handling Paramaters (Get/Post)
+	-- Master views
+	
+	take half an hour break and just think about PROMISE. that is core of NodeJS (esp) so it is very important to understand
+	http://callbackhell.com/
+
+
+
+
+
+======================================================================================================================
+To use nunjucks:
+
+	-- first require("nunjucks") and then set defaults
+				nunjucks.configure('views', {
+				    autoescape	: true,
+				    express		: app
+				});
+
+	-- and then express will be able to use res.render()
+			app.get('/', function (req, res) {
+			    // res.json({"status": 1, "reason" : "Hello there"});
+			    res.render('index.html', {
+
+			    	title : 'My First Nunjucks Page',
+				    items : [
+				      { name : 'item #1' },
+				      { name : 'item #2' },
+				      { name : 'item #3' },
+				      { name : 'item #4' },
+				    ],
+
+				    divideTitle: function(){
+				    	var titleArr = this.title.split(" ");
+				    	alert(titleArr);
+				    }
+
+			    })
+			});
+	
+	-- res.render() has first perameter of template file created in the views directory(cool) and the second one is data
+======================================================================================================================

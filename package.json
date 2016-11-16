@@ -1,0 +1,19 @@
+{
+  "name": "todo-mongo",
+  "version": "0.0.1",
+  "description": "This a todo application that talks to mongodb",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "todo"
+  ],
+  "author": "Junaid Anwar",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.14.0",
+    "mongodb": "^2.2.11",
+    "nunjucks": "^3.0.0"
+  }
+}
