@@ -10,16 +10,60 @@
 <body>
   <div class="container">
     {% block content %}
-      <h1>Default Content JUNI</h1>
+    <h1>Default Content JUNI</h1>
+    {% endblock %}
+    
+    {% block form %}
+      <form action="/create" method="POST" class="form">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Type your Task" name="task">
+          <span class="input-group-btn">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </span>
+        </div>
+      </form>
+    {% endblock %}
+    
+
+
+    {% block tasks %}
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Task</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for task in tasks %}
+          <tr>
+            <td>{{ task.taskName }}</td>
+            <td>
+              <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                 <button type="button" class="btn btn-default">Done</button> 
+                 <button id="btnGroupDrop1" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span> </button> 
+                 <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                    <li><a href="#">Archive</a></li>
+                    <li><a href="#" class="alert-danger">Delete</a></li>
+                 </ul>
+              </div>
+            </td>
+          </tr>
+        {% else %}
+          <tr>
+            <td>No previous tasks found</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
     {% endblock %}
 
-    <form action="/create" method="POST" class="form">
-      <input type="text" class="form-control" placeholder="name" name="name">
-      <input type="text" class="form-control" placeholder="quote" name="quote">
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+
   </div>
 
-  <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 </html>
