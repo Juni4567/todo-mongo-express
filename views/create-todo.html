@@ -1,13 +1,5 @@
-<!doctype html>
-<html>
-  <head>
-    <title>{{ title }}</title>
-  </head>
-  <body>
-    <ul>
-      {% for item in items %}
-        <li>{{ item.name }}</li>
-      {% endfor %}
-    </ul>
-  </body>
-</html>
+{% extends "index.html" %}
+  
+  {% block content %}
+    <h2>Hello {{title}}, You said: "{{quoteContent}}" in your quote.</h2> 
+  {% endblock %}
