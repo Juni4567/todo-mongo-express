@@ -34,6 +34,12 @@ How to proceed:
 
 
 
+Installing and getting started with MongoDB
+1. install mongodb In (whatever directory mine was c:/monodb)
+2. next set environment variable for mongodb
+3. once set
+	-- create mongo-data folder in c:\mongo-data
+4. download compass from mongodb (https://www.mongodb.com/download-center?jmp=hero#compass)
 
 
 ======================================================================================================================

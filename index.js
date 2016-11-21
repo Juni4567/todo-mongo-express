@@ -1,6 +1,20 @@
-var express 	= require('express');
+var express     = require('express');
 var nunjucks    = require('nunjucks');
 var bodyParser 	= require('body-parser');
+var MongoClient = require('mongodb').MongoClient;
+
+// mongodb://localhost:27017/todo_db (todo_db is the the db name and collection is a table inside that table)
+MongoClient.connect('mongodb://localhost:27017/todo_db', function(err, db){
+  if(err) throw err;
+
+  db.collection('tasks').find().toArray(function (err, result){
+    if(err) throw err
+
+      // console.log(result);
+  })
+});
+
+
 var app     	= express();
 
 
@@ -8,40 +22,54 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 
 nunjucks.configure('views', {
-    autoescape: true,
-    express: app
+  autoescape: true,
+  express: app
 });
 
 
 app.get('/', function (req, res) {
     // res.json({"status": 1, "reason" : "Hello there"});
-    res.render('index.html', {
-    	title : 'Welcome to my TODO app',
-        tasks : [
-          { taskName : 'Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.' },
-          { taskName : 'Lorem ipsum dolor sit amet, consectetuer dolore psum dolor sit.' },
-          { taskName : 'Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.' },
-          { taskName : 'consectetuer sit amet ipsum dolor, consectetuer ipsum consectetuer sit amet dolore.' },
-        ]
-    })
-});
+    MongoClient.connect('mongodb://localhost:27017/todo_db', function(err, db){
+      if(err) throw err;
+
+      db.collection('tasks').find().toArray(function (err, result){
+        if(err) throw err
+
+          res.render('index.html', {
+            title : 'Welcome to my TODO app',
+            tasks : result
+          })
+
+      })
+    });
+  });
 
 app.post('/create', function (req, res) {
-    console.log(req.body);
     // res.json(req.body);
-    res.render('create-todo.html', {
-        title    : "Task submitted",
-        taskName : req.body.task,
-        tasks    : [
-          { taskName : 'Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.' },
-          { taskName : 'Lorem ipsum dolor sit amet, consectetuer dolore psum dolor sit.' },
-          { taskName : 'Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.' },
-          { taskName : 'consectetuer sit amet ipsum dolor, consectetuer ipsum consectetuer sit amet dolore.' },
-          { taskName : req.body.task}
-        ]
+    MongoClient.connect('mongodb://localhost:27017/todo_db', function(err, db){
+      if(err) throw err;
+      console.log(req.body.task)
+
+
+      var collection = db.collection('tasks');
+
+
+      collection.insert({"taskName": req.body.task}, function(err, result){
+        db.close();
+      })
+
+      collection.find().toArray(function (err, result){
+        if(err) throw err
+
+          res.render('create-todo.html', {
+            title    : "Task submitted",
+            taskName : req.body.task,
+            tasks    : result,
+          });
+      })
     });
     // res.send('create-todo.html');
-});
+  });
 
 
 
@@ -58,6 +86,7 @@ app.post('/create', function (req, res) {
 //     res.json({"status": 1, "reason" : "Now Testing " + req.params.id});
 // });
 
+
 app.listen((process.env.PORT || 3003), function () {
-    console.log('Here you go, Open localhost:3003 and see you app running');
+  console.log('Here you go, Open localhost:3003 and see you app running');
 })
