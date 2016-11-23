@@ -4,7 +4,7 @@
   "description": "This a todo application that talks to mongodb",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "ava"
   },
   "keywords": [
     "todo"
@@ -17,5 +17,8 @@
     "mongodb": "^2.2.11",
     "mongoose": "^4.6.8",
     "nunjucks": "^3.0.0"
+  },
+  "devDependencies": {
+    "ava": "^0.17.0"
   }
 }
