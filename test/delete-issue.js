@@ -31,55 +31,6 @@ test.beforeEach(t => {
    })
 });
 
-test('Test Database Connection', t => {
-    t.is(typeof t.context, 'object');
-    t.is(typeof t.context.db, 'object');
-
-    t.pass();
-});
-
-test('Insert Multiple Items', async t => {
-    //Ensure that our checklist is empty
-    t.context.db.collection('checklist').remove();
-
-    let title = "Task 1";
-    t.context.db.collection('checklist').insert({title});
-
-    title = "Task 2";
-    t.context.db.collection('checklist').insert({title});
-
-    t.is(await t.context.db.collection('checklist').find({}).count(), 2);
-
-    t.pass();
-});
-
-test('Find Collection', async t => {
-    t.is(await t.context.db.collection('checklist').find({title : "Task 1"}).count(), 1);
-    t.is(await t.context.db.collection('checklist').find({title : "Task 3"}).count(), 0, "Wrong value is coming during search");
-
-    t.pass();
-});
-
-
-test('Find the Task number 1, delete and then ensure we have only one result', async t => {
-
-    try {
-
-        t.is(await t.context.db.collection('checklist').count(), 2);
-
-        const task1          = await t.context.db.collection('checklist').findOne({'title' : "Task 1"});
-        const deleteRecord   = await t.context.db.collection('checklist').deleteOne({_id: new MongoClient.ObjectID(task1._id)});
-
-        t.is(await t.context.db.collection('checklist').count(), 1);
-        t.pass();
-
-    }catch(e) {
-        t.fail(e.toString());
-    }
-
-});
-
-
 test('Delete Multiple items & then remove collection', async t => {
 
     try {
@@ -102,24 +53,16 @@ test('Delete Multiple items & then remove collection', async t => {
         t.not(task1, null);
         t.not(task2, null);
 
-        const deleteRecord   = await t.context.db.collection('checklist').remove({_id: {
-            "$in" : [new MongoClient.ObjectID(task1._id), new MongoClient.ObjectID(task2._id)]
-        }});
+        const deleteRecord1   = await t.context.db.collection('checklist').remove({_id: new MongoClient.ObjectID( task1._id.toString() )});
+        t.is(await t.context.db.collection('checklist').count(), 1);
 
+        const deleteRecord2   = await t.context.db.collection('checklist').remove({_id: new MongoClient.ObjectID( task2._id.toString() )});
         t.is(await t.context.db.collection('checklist').count(), 0);
+
         t.pass();
+
     }catch(e) {
         t.fail(e.toString());
     }
-    });
 
-test('Juni\'s first test', async t=> {
-    let a = 2;
-    let b = 1;
-    let c = a+b;
-    if(c === 3){
-        t.pass();
-    }else{
-        t.fail();
-    }
 });
