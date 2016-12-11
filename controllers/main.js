@@ -17,6 +17,7 @@ router.get('/', async (req, res, next) => {
             archive: { $exists: false }
         }).toArray();
 
+        tasks.reverse();
         //Testing Heavy DB Operations
         //await db.collection('visitors').insertOne({visitorCounter});
 
@@ -37,10 +38,17 @@ router.post('/create', async (req, res, next) => {
         const db       = req.app.locals.db;
         const taskName = req.body.task;
 
-        const task     = await db.collection('tasks').insertOne({taskName});
+        if(taskName.length){
+            console.log("Submitting task to db: "+ taskName);
+            const task     = await db.collection('tasks').insertOne({taskName});
+            //Task has been submitted, lets redirect user back to main screen
+            res.redirect(`/?action=task-inserted&id=${task.insertedId}`);
+        }
+        else{
+            console.log("Submittion abandoned because of empty task: "+ taskName);
+            res.redirect(`/?action=task-insertion-abandoned}`);
+        }
 
-        //Task has been submitted, lets redirect user back to main screen
-        res.redirect(`/?action=task-inserted&id=${task.insertedId}`);
 
     } catch (err) {
         next(err);

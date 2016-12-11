@@ -76,3 +76,14 @@ test('Delete Collection', async t => {
         t.pass();
     });
 });
+
+test('Juni\'s first test', async t=> {
+    let a = 2;
+    let b = 1;
+    let c = a+b;
+    if(c === 3){
+        t.pass();
+    }else{
+        t.fail();
+    }
+});
