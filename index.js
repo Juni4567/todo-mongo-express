@@ -1,92 +1,47 @@
-var express     = require('express');
-var nunjucks    = require('nunjucks');
-var bodyParser 	= require('body-parser');
-var MongoClient = require('mongodb').MongoClient;
+import express              from 'express';
+import nunjucks             from 'nunjucks';
+import bodyParser           from 'body-parser';
+import mongodb              from 'mongodb'
 
-// mongodb://localhost:27017/todo_db (todo_db is the the db name and collection is a table inside that table)
-MongoClient.connect('mongodb://localhost:27017/todo_db', function(err, db){
-  if(err) throw err;
+//Routes / Controllers
+import indexRoutes          from './controllers/main';
+import categoryRoutes       from './controllers/category';
+import userRoutes           from './controllers/users';
 
-  db.collection('tasks').find().toArray(function (err, result){
-    if(err) throw err
+const MongoClient = mongodb.MongoClient;
+const app         = express();
+const PORT        = process.env.PORT || 3003;
 
-      // console.log(result);
-  })
-});
-
-
-var app     	= express();
-
-
+//Basic Configurations & Database Connections
 app.use(bodyParser.urlencoded({extended: true}));
+
+app.use('/category', categoryRoutes);
+app.use('/user', userRoutes);
+app.use('/', indexRoutes);
 
 
 nunjucks.configure('views', {
-  autoescape: true,
-  express: app
+    autoescape: true,
+    express   : app
 });
 
+//Connection Handling
+async function startAPP() {
 
-app.get('/', function (req, res) {
-    // res.json({"status": 1, "reason" : "Hello there"});
-    MongoClient.connect('mongodb://localhost:27017/todo_db', function(err, db){
-      if(err) throw err;
+    try {
 
-      db.collection('tasks').find().toArray(function (err, result){
-        if(err) throw err
+        //@IMPORTANT, it will ensure we have db object available throughout.
+        app.locals.db = await MongoClient.connect('mongodb://localhost:27017/todo_db');
 
-          res.render('index.html', {
-            title : 'Welcome to my TODO app',
-            tasks : result
-          })
+        app.listen(PORT, () => {
+            console.log(`Here you go, Open localhost:${PORT} and see you app running`);
+        });
 
-      })
-    });
-  });
+    }catch(err) {
+        console.warn(`Failed to connect to the database. ${err.stack}`);
+    }
 
-app.post('/create', function (req, res) {
-    // res.json(req.body);
-    MongoClient.connect('mongodb://localhost:27017/todo_db', function(err, db){
-      if(err) throw err;
-      console.log(req.body.task)
+}
 
-
-      var collection = db.collection('tasks');
-
-
-      collection.insert({"taskName": req.body.task}, function(err, result){
-        db.close();
-      })
-
-      collection.find().toArray(function (err, result){
-        if(err) throw err
-
-          res.render('create-todo.html', {
-            title    : "Task submitted",
-            taskName : req.body.task,
-            tasks    : result,
-          });
-      })
-    });
-    // res.send('create-todo.html');
-  });
-
-
-
-
-// app.post('/update/:id', function (req, res) {
-//     res.json({"status": 1, "reason" : "Now updating " + req.params.id});
-// });
-
-// app.post('/delete/:id', function (req, res) {
-//     res.json({"status": 1, "reason" : "Now deleting " + req.params.id});
-// });
-
-// app.get('/test/:id', function (req, res) {
-//     res.json({"status": 1, "reason" : "Now Testing " + req.params.id});
-// });
-
-
-app.listen((process.env.PORT || 3003), function () {
-  console.log('Here you go, Open localhost:3003 and see you app running');
-})
+//Ok, Launch application now!
+startAPP();

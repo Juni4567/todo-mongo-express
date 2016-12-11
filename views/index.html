@@ -11,6 +11,14 @@
   <div class="container">
     {% block content %}
     <h1>Default Content JUNI</h1>
+
+    <div>
+      <a href="/">Home</a>
+      <a href="/archive">Archived</a>
+
+      <small>Visitors {{ visitorCounter }}</small>
+    </div>
+
     {% endblock %}
     
     {% block form %}
@@ -43,8 +51,8 @@
                  <button type="button" class="btn btn-default">Done</button> 
                  <button id="btnGroupDrop1" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span> </button> 
                  <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                    <li><a href="#">Archive</a></li>
-                    <li><a href="#" class="alert-danger">Delete</a></li>
+                    <li><a href="/archive/{{ task._id }}" data-id="{{ task._id }}">Archive</a></li>
+                    <li><a href="/delete/{{ task._id }}" class="alert-danger" data-id="">Delete</a></li>
                  </ul>
               </div>
             </td>

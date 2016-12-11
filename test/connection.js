@@ -59,3 +59,20 @@ test('Find Collection', async t => {
 
     t.pass();
 });
+
+
+//Find the Task number 1, delete and then ensure we have only one result
+test('Delete Collection', async t => {
+
+    t.is(await t.context.db.collection('checklist').count(), 2);
+
+    const task1          = await t.context.db.collection('checklist').findOne({'title' : "Task 1"});
+    const deleteRecord   = t.context.db.collection('checklist').deleteOne({_id: new MongoClient.ObjectID(task1._id)});
+
+    return deleteRecord.then(async (result) => {
+        t.not(result, null);
+        t.is(await t.context.db.collection('checklist').count(), 1);
+
+        t.pass();
+    });
+});
