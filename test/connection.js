@@ -108,9 +108,18 @@ test('Delete Multiple items & then remove collection', async t => {
 
         t.is(await t.context.db.collection('checklist').count(), 0);
         t.pass();
-
     }catch(e) {
         t.fail(e.toString());
     }
+    });
 
+test('Juni\'s first test', async t=> {
+    let a = 2;
+    let b = 1;
+    let c = a+b;
+    if(c === 3){
+        t.pass();
+    }else{
+        t.fail();
+    }
 });
