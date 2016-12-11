@@ -15,6 +15,7 @@
     <div>
       <a href="/">Home</a>
       <a href="/archive">Archived</a>
+      <a href="/completed">Completed</a>
 
       <small>Visitors {{ visitorCounter }}</small>
     </div>
@@ -48,9 +49,9 @@
             <td>{{ task.taskName }}</td>
             <td>
               <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                 <button type="button" class="btn btn-default">Done</button> 
                  <button id="btnGroupDrop1" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span> </button> 
                  <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                    <li><a href="/complete/{{ task._id }}">Complete</a></li>
                     <li><a href="/archive/{{ task._id }}" data-id="{{ task._id }}">Archive</a></li>
                     <li><a href="/delete/{{ task._id }}" class="alert-danger" data-id="">Delete</a></li>
                  </ul>

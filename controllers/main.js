@@ -14,9 +14,12 @@ router.get('/', async (req, res, next) => {
 
         //Ensure we have only fields which do not have archive attribute
         const tasks = await db.collection('tasks').find({
-            archive: { $exists: false }
+            archive: { $exists: false },
+            completed: { $exists: false }
         }).toArray();
 
+        // The await keyword stops the execution at line 16 until the tasks variable is populated with 
+        // the return value from db,, meanwhile all the executions are stopped from line 22 to onward
         tasks.reverse();
         //Testing Heavy DB Operations
         //await db.collection('visitors').insertOne({visitorCounter});
@@ -113,6 +116,43 @@ router.get('/archive/:id', async (req, res, next) => {
         next(err);
     }
 
+});
+
+
+router.get('/completed', async (req, res, next)=>{
+    try {
+        const db = req.app.locals.db;
+
+        const tasks = await db.collection('tasks').find({
+            completed: 1
+        }).toArray();
+
+        tasks.reverse();
+
+        const title = "Completed Tasks";
+
+        res.render('index.html', {title, tasks});
+
+    } catch(e) {
+        console.log(e);
+    }   
+});
+
+router.get('/complete/:id', async (req, res, next)=>{
+    try {
+        const db        = req.app.locals.db;
+        const _id       = new ObjectID(req.params.id);
+
+        const updatedRecord = await db.collection('tasks').updateOne({ _id }, { $set:{
+            "completed" : 1
+         }})
+
+        //Task has been submitted, lets redirect user back to main screen
+        res.redirect(`/?action=task-archived&id=${req.params.id}&completion-status=${updatedRecord}`);
+
+    } catch(e) {
+        console.log(e);
+    }   
 });
 
 export default router;

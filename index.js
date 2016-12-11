@@ -8,6 +8,7 @@ import indexRoutes          from './controllers/main';
 import categoryRoutes       from './controllers/category';
 import userRoutes           from './controllers/users';
 
+// Import the variables defined in our config.js file
 import {PORT, DB_URL}       from './config';
 
 const MongoClient = mongodb.MongoClient;
@@ -15,12 +16,9 @@ const app         = express();
 
 //Basic Configurations & Database Connections
 app.use(bodyParser.urlencoded({extended: true}));
-
 app.use('/category', categoryRoutes);
 app.use('/user', userRoutes);
 app.use('/', indexRoutes);
-
-
 nunjucks.configure('views', {
     autoescape: true,
     express   : app
@@ -43,6 +41,8 @@ async function startAPP() {
     }
 
 }
+
+
 
 //Ok, Launch application now!
 startAPP();

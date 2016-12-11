@@ -6,16 +6,21 @@ let db = null;
 //this function will be placed in other folders and imported
 function getConnection() {
     return new Promise((resolve, reject) => {
+        // Check if the global db is already defined
         if(db) {
             return resolve(db);
         }
 
+        // If global db is not defined, make a request to mongodb and save the db object in the globally defined db(var)
         MongoClient.connect('mongodb://localhost:27017/todo_app', (err, db_instance) => {
             if(err) {
+                // Mostly it will be because the "mongod --dbpath c:/mongo-data" command has not run(mongo server is offline)
                 return reject(err);
             }
 
+            // If the db connection is successful then asign db_instance to our global db
             db = db_instance;
+            // and resolve the promise with the db value
             resolve(db_instance);
         })
     })
@@ -27,7 +32,10 @@ function getConnection() {
 //{db} is shorthand in ES6 for {db: db}
 test.beforeEach(t => {
    return new Promise((resolve, reject) => {
-       getConnection().then(db => { t.context = {db}; resolve(db); }).catch(err => reject(err));
+        getConnection().then(db => { 
+            t.context = {db};
+            resolve(db);
+        }).catch(err => reject(err));
    })
 });
 

@@ -94,3 +94,10 @@ The workflow is a bit changed now
 	-- the test folder includes all the tests that we are going to perfrom (including the delete-issue; deleting document from db)
 	-- The controllers folder has all the controllers that work with our views(updating variables used in the views e.g. create-todo.html and index.html)
 
+	-- Views folder has all the views (the nunjucks templates)
+
+
+
+========Learning from today Dec 12, 2016==========
+	-- learned what's await (it stops the execution of next lines unless the response from the asynchronous function has arrived) (still don't know a real life example of it)
+
