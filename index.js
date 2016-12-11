@@ -8,9 +8,10 @@ import indexRoutes          from './controllers/main';
 import categoryRoutes       from './controllers/category';
 import userRoutes           from './controllers/users';
 
+import {PORT, DB_URL}       from './config';
+
 const MongoClient = mongodb.MongoClient;
 const app         = express();
-const PORT        = process.env.PORT || 3003;
 
 //Basic Configurations & Database Connections
 app.use(bodyParser.urlencoded({extended: true}));
@@ -31,7 +32,7 @@ async function startAPP() {
     try {
 
         //@IMPORTANT, it will ensure we have db object available throughout.
-        app.locals.db = await MongoClient.connect('mongodb://localhost:27017/todo_db');
+        app.locals.db = await MongoClient.connect(DB_URL);
 
         app.listen(PORT, () => {
             console.log(`Here you go, Open localhost:${PORT} and see you app running`);
