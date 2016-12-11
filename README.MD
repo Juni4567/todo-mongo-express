@@ -1,9 +1,81 @@
-Document it
+# TODO With Mongodb and nodejs
+1. Start with node (backend), and create route first
+2. try to say "/hello" to "Hello world"
+3. Create 4 routes index, create, delete, update
+then /create I will manully try to add task into db todoItem.save()
+same goes to other and then I will focus on visual and connect all routes through jQuery ajax.
+i hope I am making some sense here.
 
-npm install --global ava
+just like PHP has Mysql as default database, Node has Mongo so connection will be there at app level (at the start of app/request look at express middleware)
+security is not your concern in todo app and neither it should be objective
 
-npm test -- --watch
+How to proceed:
+	-- Master Routing : https://expressjs.com/en/guide/routing.html
+	-- Master Handling Paramaters (Get/Post)
+	-- Master views
+	
+	take half an hour break and just think about PROMISE. that is core of NodeJS (esp) so it is very important to understand
+	http://callbackhell.com/
 
-npm install -g babel-cli
 
+
+Installing and getting started with MongoDB
+1. install mongodb In (whatever directory mine was c:/monodb)
+2. next set environment variable for mongodb
+3. once set
+	-- create mongo-data folder in c:\mongo-data
+4. download compass from mongodb (https://www.mongodb.com/download-center?jmp=hero#compass)
+
+
+======================================================================================================================
+To use nunjucks:
+
+	-- first require("nunjucks") and then set defaults
+				nunjucks.configure('views', {
+				    autoescape	: true,
+				    express		: app
+				});
+
+	-- and then express will be able to use res.render()
+			app.get('/', function (req, res) {
+			    // res.json({"status": 1, "reason" : "Hello there"});
+			    res.render('index.html', {
+
+			    	title : 'My First Nunjucks Page',
+				    items : [
+				      { name : 'item #1' },
+				      { name : 'item #2' },
+				      { name : 'item #3' },
+				      { name : 'item #4' },
+				    ],
+
+				    divideTitle: function(){
+				    	var titleArr = this.title.split(" ");
+				    	alert(titleArr);
+				    }
+
+			    })
+			});
+	
+	-- res.render() has first perameter of template file created in the views directory(cool) and the second one is data
+======================================================================================================================
+
+
+
+
+
+
+==================================================================================================================
+Start to a test driven development environment.
+
+npm install --global ava (installs ava as a global npm package which is necessary to run ava tests)
+npm test -- --watch (This is the command that runs and watch for our test/*.js)
+npm install -g babel-cli (Babel-cli run and transpiles our es6 and make it competible for the browser )
 nodemon --exec babel-node -- index.js
+
+
+The workflow is a bit changed now
+
+	-- the test folder includes all the tests that we are going to perfrom (including the delete-issue; deleting document from db)
+	-- The controllers folder has all the controllers that work with our views(updating variables used in the views e.g. create-todo.html and index.html)
+

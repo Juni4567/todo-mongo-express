@@ -74,3 +74,23 @@ To use nunjucks:
 	
 	-- res.render() has first perameter of template file created in the views directory(cool) and the second one is data
 ======================================================================================================================
+
+
+
+
+
+
+==================================================================================================================
+Start to a test driven development environment.
+
+npm install --global ava (installs ava as a global npm package which is necessary to run ava tests)
+npm test -- --watch (This is the command that runs and watch for our test/*.js)
+npm install -g babel-cli (Babel-cli run and transpiles our es6 and make it competible for the browser )
+nodemon --exec babel-node -- index.js
+
+
+The workflow is a bit changed now
+
+	-- the test folder includes all the tests that we are going to perfrom (including the delete-issue; deleting document from db)
+	-- The controllers folder has all the controllers that work with our views(updating variables used in the views e.g. create-todo.html and index.html)
+
