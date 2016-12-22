@@ -27,6 +27,7 @@ router.get('/', async (req, res, next) => {
         const title = "Welcome to my TODO app";
 
         res.render('index.html', {title, tasks, visitorCounter});
+        console.log(req.headers.host);
 
     } catch (err) {
         next(err);
@@ -89,7 +90,6 @@ router.get('/archive', async (req, res, next) => {
         }).toArray();
 
         const title = "Archived Tasks";
-
         res.render('index.html', {title, tasks});
 
     } catch (err) {

@@ -4,13 +4,14 @@
   <meta charset="UTF-8">
   <title>{{ title }}</title>
 
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
+  <link rel="stylesheet" href="/css/styles.css">
   
 </head>
 <body>
   <div class="container">
     {% block content %}
-    <h1>Default Content JUNI</h1>
+    <h1>Welcome to your Todos</h1>
 
     <div>
       <a href="/">Home</a>
@@ -48,13 +49,15 @@
           <tr>
             <td>{{ task.taskName }}</td>
             <td>
-              <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                 <button id="btnGroupDrop1" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span> </button> 
-                 <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                    <li><a href="/complete/{{ task._id }}">Complete</a></li>
-                    <li><a href="/archive/{{ task._id }}" data-id="{{ task._id }}">Archive</a></li>
-                    <li><a href="/delete/{{ task._id }}" class="alert-danger" data-id="">Delete</a></li>
-                 </ul>
+              <div class="btn-group">
+                <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="/complete/{{ task._id }}">Complete</a>
+                  <a class="dropdown-item" href="/archive/{{ task._id }}" data-id="{{ task._id }}">Archive</a>
+                  <a class="dropdown-item" href="/delete/{{ task._id }}" class="alert-danger" data-id="">Delete</a>
+                </div>
               </div>
             </td>
           </tr>
