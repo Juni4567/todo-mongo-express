@@ -21,7 +21,8 @@ app.use('/category', categoryRoutes);
 app.use('/user', userRoutes);
 app.use('/', indexRoutes);
 
-// Assets' Path
+// Add ability to express for static Assets' Path
+// so now when we add /css/styles.css it will load the styles in css directory within assets folder in root
 app.use(express.static('assets'))
 
 nunjucks.configure('views', {
